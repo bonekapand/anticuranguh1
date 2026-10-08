@@ -1,0 +1,4016 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LMS Projek IPAS - Makhluk Hidup dan Lingkungannya</title>
+
+<style>
+
+/* =====================================================
+   DASAR
+===================================================== */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:280px;
+    height:100vh;
+    background:#111827;
+    color:white;
+    overflow-y:auto;
+    z-index:1000;
+}
+
+.sidebar-header{
+    padding:24px 20px;
+    background:#1f2937;
+    border-bottom:1px solid #374151;
+}
+
+.sidebar-header h2{
+    margin:0;
+    font-size:20px;
+}
+
+.sidebar-header p{
+    margin:8px 0 0;
+    font-size:13px;
+    color:#cbd5e1;
+    line-height:1.5;
+}
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+.menu{
+    padding:15px 10px;
+}
+
+.menu-title{
+    padding:10px;
+    color:#94a3b8;
+    font-size:12px;
+    text-transform:uppercase;
+    font-weight:bold;
+}
+
+.menu-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    padding:13px 14px;
+    margin:4px 0;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.menu-item:hover{
+    background:#1f2937;
+}
+
+.menu-item.active{
+    background:#2563eb;
+    color:white;
+}
+
+.menu-item.locked{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.menu-number{
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#374151;
+    font-size:13px;
+    flex-shrink:0;
+}
+
+.menu-item.active .menu-number{
+    background:white;
+    color:#2563eb;
+}
+
+.menu-text{
+    font-size:14px;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress-box{
+    margin:15px;
+    padding:15px;
+    border-radius:10px;
+    background:#1f2937;
+}
+
+.progress-label{
+    font-size:13px;
+    color:#cbd5e1;
+    margin-bottom:10px;
+}
+
+.progress-bar{
+    width:100%;
+    height:8px;
+    background:#374151;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#22c55e;
+    transition:.3s;
+}
+
+.progress-percent{
+    margin-top:8px;
+    text-align:right;
+    font-size:12px;
+    color:#cbd5e1;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+    margin-left:280px;
+    padding:30px;
+    min-height:100vh;
+}
+
+.page-header{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+}
+
+.page-header h1{
+    margin:0;
+    font-size:28px;
+    color:#111827;
+}
+
+.page-header p{
+    margin:8px 0 0;
+    color:#64748b;
+}
+
+
+/* =====================================================
+   LESSON
+===================================================== */
+
+.lesson{
+    background:white;
+    border-radius:14px;
+    margin-bottom:18px;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+    overflow:hidden;
+    scroll-margin-top:20px;
+}
+
+.lesson-header{
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    cursor:pointer;
+    border-bottom:1px solid transparent;
+}
+
+.lesson-header:hover{
+    background:#f8fafc;
+}
+
+.lesson.locked .lesson-header{
+    cursor:not-allowed;
+}
+
+.lesson-number{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#2563eb;
+    color:white;
+    font-weight:bold;
+    flex-shrink:0;
+}
+
+.lesson.locked .lesson-number{
+    background:#94a3b8;
+}
+
+.lesson.completed .lesson-number{
+    background:#16a34a;
+}
+
+.lesson-title{
+    flex:1;
+}
+
+.lesson-title h3{
+    margin:0 0 4px;
+    font-size:18px;
+}
+
+.lesson-title span{
+    font-size:13px;
+    color:#64748b;
+}
+
+.lesson-status{
+    font-size:12px;
+    color:#64748b;
+    white-space:nowrap;
+}
+
+.lesson-content{
+    display:none;
+    padding:25px;
+    line-height:1.7;
+}
+
+.lesson.open .lesson-content{
+    display:block;
+}
+
+.lesson-content h4{
+    color:#1d4ed8;
+    margin-top:20px;
+}
+
+.lesson-content p{
+    margin:10px 0;
+}
+
+.lesson-content ul{
+    padding-left:25px;
+}
+
+
+/* =====================================================
+   BOX
+===================================================== */
+
+.example-box{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+    padding:15px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning-box{
+    background:#fff7ed;
+    border-left:5px solid #f97316;
+    padding:15px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.success-box{
+    background:#f0fdf4;
+    border-left:5px solid #16a34a;
+    padding:15px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+
+/* =====================================================
+   HOTS
+===================================================== */
+
+.hots-box{
+    margin-top:25px;
+    padding:20px;
+    background:#fff7ed;
+    border:2px solid #fed7aa;
+    border-radius:12px;
+}
+
+.hots-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#c2410c;
+    margin-bottom:12px;
+}
+
+.hots-title h4{
+    margin:0;
+    color:#c2410c;
+}
+
+.hots-question{
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.hots-answer{
+    width:100%;
+    min-height:130px;
+    padding:13px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    resize:vertical;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    line-height:1.6;
+    background:white;
+}
+
+.hots-answer:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+.save-info{
+    margin-top:8px;
+    font-size:12px;
+    color:#64748b;
+}
+
+.save-info.saved{
+    color:#16a34a;
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.complete-btn{
+    margin-top:20px;
+    padding:13px 20px;
+    border:0;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.complete-btn:hover{
+    background:#1d4ed8;
+}
+
+.complete-btn.completed{
+    background:#16a34a;
+    cursor:not-allowed;
+}
+
+.complete-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+
+/* =====================================================
+   SPECIAL SECTION
+===================================================== */
+
+.special-section{
+    background:white;
+    border-radius:14px;
+    margin-bottom:20px;
+    padding:25px;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+    scroll-margin-top:20px;
+}
+
+.special-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.special-title h2{
+    margin:0;
+}
+
+.lock-message{
+    padding:18px;
+    background:#f1f5f9;
+    border-radius:10px;
+    color:#475569;
+}
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+.video-container{
+    position:relative;
+    width:100%;
+    padding-bottom:56.25%;
+    height:0;
+    overflow:hidden;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.video-container iframe{
+    position:absolute;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    border:0;
+}
+
+.question-box{
+    background:#f8fafc;
+    border-radius:10px;
+    padding:18px;
+    margin:15px 0;
+}
+
+.question-box textarea{
+    width:100%;
+    min-height:90px;
+    padding:12px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    resize:vertical;
+    font-family:inherit;
+}
+
+
+/* =====================================================
+   LKPD
+===================================================== */
+
+.lkpd-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+.lkpd-table th,
+.lkpd-table td{
+    border:1px solid #cbd5e1;
+    padding:10px;
+    vertical-align:top;
+}
+
+.lkpd-table th{
+    background:#eff6ff;
+}
+
+.lkpd-table input,
+.lkpd-table textarea{
+    width:100%;
+    border:1px solid #cbd5e1;
+    padding:8px;
+    border-radius:6px;
+    font-family:inherit;
+}
+
+.lkpd-table textarea{
+    min-height:70px;
+}
+
+
+/* =====================================================
+   QUIZ
+===================================================== */
+
+.quiz-question{
+    padding:20px;
+    background:#f8fafc;
+    border-radius:10px;
+    margin-bottom:18px;
+}
+
+.quiz-question h4{
+    margin-top:0;
+}
+
+.option{
+    display:block;
+    padding:10px;
+    margin:7px 0;
+    border:1px solid #dbe2ea;
+    border-radius:7px;
+    cursor:pointer;
+    background:white;
+}
+
+.option:hover{
+    background:#eff6ff;
+}
+
+.option input{
+    margin-right:8px;
+}
+
+.quiz-result{
+    padding:20px;
+    background:#eff6ff;
+    border-radius:10px;
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+
+/* =====================================================
+   ACTIVITY
+===================================================== */
+
+.activity-box{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+    margin-top:25px;
+}
+
+.activity-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.activity-item:last-child{
+    border-bottom:0;
+}
+
+.activity-icon{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#e5e7eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.activity-item.done .activity-icon{
+    background:#22c55e;
+    color:white;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:800px){
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main{
+        margin-left:0;
+        padding:15px;
+    }
+
+    .page-header h1{
+        font-size:22px;
+    }
+
+    .lesson-header{
+        padding:14px;
+    }
+
+    .lesson-status{
+        display:none;
+    }
+
+    .lkpd-table{
+        display:block;
+        overflow-x:auto;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-header">
+
+        <h2>📚 LMS Projek IPAS</h2>
+
+        <p>
+            SMK Kelas X<br>
+            Makhluk Hidup dan Lingkungannya
+        </p>
+
+    </div>
+
+
+    <div class="progress-box">
+
+        <div class="progress-label">
+            Progress Pembelajaran
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+        <div
+            class="progress-percent"
+            id="progressText">
+            0%
+        </div>
+
+    </div>
+
+
+    <div class="menu">
+
+        <div class="menu-title">
+            Materi Pembelajaran
+        </div>
+
+
+        <a
+            class="menu-item active"
+            id="menuIndividu"
+            href="#individu">
+
+            <div class="menu-number">
+                1
+            </div>
+
+            <div class="menu-text">
+                Individu & Adaptasi
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item locked"
+            id="menuPopulasi"
+            href="#populasi">
+
+            <div class="menu-number">
+                2
+            </div>
+
+            <div class="menu-text">
+                Populasi
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item locked"
+            id="menuKomunitas"
+            href="#komunitas">
+
+            <div class="menu-number">
+                3
+            </div>
+
+            <div class="menu-text">
+                Komunitas
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item locked"
+            id="menuEkosistem"
+            href="#ekosistem">
+
+            <div class="menu-number">
+                4
+            </div>
+
+            <div class="menu-text">
+                Ekosistem
+            </div>
+
+        </a>
+
+
+        <div class="menu-title">
+            Kegiatan
+        </div>
+
+
+        <a
+            class="menu-item locked"
+            id="menuVideo"
+            href="#videoSection">
+
+            <div class="menu-number">
+                5
+            </div>
+
+            <div class="menu-text">
+                Video Pembelajaran
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item locked"
+            id="menuLKPD"
+            href="#lkpdSection">
+
+            <div class="menu-number">
+                6
+            </div>
+
+            <div class="menu-text">
+                LKPD
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item locked"
+            id="menuQuiz"
+            href="#quizSection">
+
+            <div class="menu-number">
+                7
+            </div>
+
+            <div class="menu-text">
+                Kuis HOTS
+            </div>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <div class="page-header">
+
+        <h1>
+            🌱 Makhluk Hidup dan Lingkungannya
+        </h1>
+
+        <p>
+            Projek IPAS – SMK Kelas X
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MATERI 1
+    ================================================== -->
+
+    <section
+        class="lesson open"
+        id="individu"
+        data-lesson="1">
+
+
+        <div
+            class="lesson-header"
+            onclick="toggleLesson(this)">
+
+            <div class="lesson-number">
+                1
+            </div>
+
+
+            <div class="lesson-title">
+
+                <h3>
+                    Individu dan Adaptasi
+                </h3>
+
+                <span>
+                    Memahami tingkat organisasi kehidupan pada tingkat individu
+                </span>
+
+            </div>
+
+
+            <div
+                class="lesson-status"
+                id="status1">
+
+                📖 Siap Dipelajari
+
+            </div>
+
+        </div>
+
+
+
+        <div class="lesson-content">
+
+
+            <h4>
+                1. Pengertian Individu
+            </h4>
+
+            <p>
+                Individu adalah satu makhluk hidup yang berdiri sendiri.
+                Setiap individu mempunyai ciri-ciri kehidupan seperti
+                bernapas, membutuhkan makanan, tumbuh, berkembang biak,
+                bergerak, dan merespons rangsangan.
+            </p>
+
+
+            <div class="example-box">
+
+                <strong>Contoh:</strong>
+
+                <p>
+                    Seekor kucing merupakan satu individu.
+                    Satu pohon mangga juga merupakan satu individu.
+                </p>
+
+            </div>
+
+
+            <h4>
+                2. Adaptasi
+            </h4>
+
+            <p>
+                Adaptasi adalah kemampuan makhluk hidup untuk menyesuaikan
+                diri terhadap kondisi lingkungan agar dapat bertahan hidup.
+            </p>
+
+
+            <h4>
+                3. Jenis Adaptasi
+            </h4>
+
+            <ul>
+
+                <li>
+                    <strong>Adaptasi morfologi</strong> –
+                    penyesuaian bentuk tubuh.
+                </li>
+
+                <li>
+                    <strong>Adaptasi fisiologi</strong> –
+                    penyesuaian fungsi organ tubuh.
+                </li>
+
+                <li>
+                    <strong>Adaptasi tingkah laku</strong> –
+                    penyesuaian perilaku terhadap lingkungan.
+                </li>
+
+            </ul>
+
+
+            <div class="example-box">
+
+                <strong>Contoh adaptasi:</strong>
+
+                <ul>
+
+                    <li>
+                        Kaktus memiliki daun berbentuk duri.
+                    </li>
+
+                    <li>
+                        Bebek memiliki kaki berselaput.
+                    </li>
+
+                    <li>
+                        Burung bermigrasi ketika kondisi lingkungan berubah.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- HOTS 1 -->
+
+            <div class="hots-box">
+
+                <div class="hots-title">
+
+                    <span>🧠</span>
+
+                    <h4>
+                        HOTS – Analisis
+                    </h4>
+
+                </div>
+
+
+                <div class="hots-question">
+
+                    Kaktus dapat hidup di daerah yang sangat kering.
+                    Menurut pemahamanmu tentang adaptasi, jelaskan
+                    bagaimana bentuk tubuh kaktus membantu tumbuhan tersebut
+                    bertahan hidup di lingkungan yang kekurangan air.
+
+                </div>
+
+
+                <textarea
+                    class="hots-answer"
+                    data-hots="1"
+                    placeholder="Tuliskan jawabanmu berdasarkan hasil analisis..."></textarea>
+
+
+                <div
+                    class="save-info"
+                    id="saveInfo1">
+
+                    💾 Jawaban akan tersimpan otomatis saat kamu mengetik.
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="complete-btn"
+                id="complete1"
+                onclick="completeLesson(1)">
+
+                ✓ Saya Sudah Selesai Mempelajari Materi
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MATERI 2
+    ================================================== -->
+
+    <section
+        class="lesson locked"
+        id="populasi"
+        data-lesson="2">
+
+
+        <div
+            class="lesson-header"
+            onclick="toggleLesson(this)">
+
+            <div class="lesson-number">
+                🔒
+            </div>
+
+
+            <div class="lesson-title">
+
+                <h3>
+                    Populasi
+                </h3>
+
+                <span>
+                    Sekumpulan individu dari spesies yang sama
+                </span>
+
+            </div>
+
+
+            <div
+                class="lesson-status"
+                id="status2">
+
+                🔒 Terkunci
+
+            </div>
+
+        </div>
+
+
+
+        <div class="lesson-content">
+
+
+            <h4>
+                1. Pengertian Populasi
+            </h4>
+
+            <p>
+                Populasi adalah kumpulan individu dari spesies yang sama
+                yang hidup di tempat dan waktu tertentu.
+            </p>
+
+
+            <div class="example-box">
+
+                <strong>Contoh:</strong>
+
+                <ul>
+
+                    <li>
+                        Sekumpulan ikan nila di sebuah kolam.
+                    </li>
+
+                    <li>
+                        Sekumpulan pohon kelapa di suatu perkebunan.
+                    </li>
+
+                    <li>
+                        Sekumpulan burung pipit di suatu wilayah.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <h4>
+                2. Ciri-Ciri Populasi
+            </h4>
+
+            <ul>
+
+                <li>
+                    Memiliki spesies yang sama.
+                </li>
+
+                <li>
+                    Menempati wilayah tertentu.
+                </li>
+
+                <li>
+                    Memiliki jumlah individu tertentu.
+                </li>
+
+                <li>
+                    Dapat mengalami perubahan jumlah.
+                </li>
+
+            </ul>
+
+
+            <h4>
+                3. Dinamika Populasi
+            </h4>
+
+            <p>
+                Jumlah populasi dapat berubah karena kelahiran,
+                kematian, imigrasi, dan emigrasi.
+            </p>
+
+
+            <!-- HOTS 2 -->
+
+            <div class="hots-box">
+
+                <div class="hots-title">
+
+                    <span>🧠</span>
+
+                    <h4>
+                        HOTS – Analisis
+                    </h4>
+
+                </div>
+
+
+                <div class="hots-question">
+
+                    Di suatu sawah, jumlah ular sebagai predator
+                    mengalami penurunan yang sangat besar.
+                    Menurut pendapatmu, bagaimana kondisi populasi tikus
+                    yang ada di sawah tersebut? Jelaskan alasanmu.
+
+                </div>
+
+
+                <textarea
+                    class="hots-answer"
+                    data-hots="2"
+                    placeholder="Tuliskan jawabanmu berdasarkan analisis..."></textarea>
+
+
+                <div
+                    class="save-info"
+                    id="saveInfo2">
+
+                    💾 Jawaban akan tersimpan otomatis saat kamu mengetik.
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="complete-btn"
+                id="complete2"
+                onclick="completeLesson(2)">
+
+                ✓ Saya Sudah Selesai Mempelajari Materi
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MATERI 3
+    ================================================== -->
+
+    <section
+        class="lesson locked"
+        id="komunitas"
+        data-lesson="3">
+
+
+        <div
+            class="lesson-header"
+            onclick="toggleLesson(this)">
+
+            <div class="lesson-number">
+                🔒
+            </div>
+
+
+            <div class="lesson-title">
+
+                <h3>
+                    Komunitas
+                </h3>
+
+                <span>
+                    Interaksi berbagai populasi dalam suatu wilayah
+                </span>
+
+            </div>
+
+
+            <div
+                class="lesson-status"
+                id="status3">
+
+                🔒 Terkunci
+
+            </div>
+
+        </div>
+
+
+
+        <div class="lesson-content">
+
+
+            <h4>
+                1. Pengertian Komunitas
+            </h4>
+
+            <p>
+                Komunitas adalah kumpulan berbagai populasi yang hidup
+                bersama dalam suatu wilayah dan saling berinteraksi.
+            </p>
+
+
+            <div class="example-box">
+
+                <strong>Contoh komunitas kolam:</strong>
+
+                <p>
+                    Dalam sebuah kolam dapat ditemukan populasi ikan,
+                    tumbuhan air, katak, serangga, dan organisme lainnya.
+                </p>
+
+            </div>
+
+
+            <h4>
+                2. Interaksi dalam Komunitas
+            </h4>
+
+            <ul>
+
+                <li>
+                    Predasi
+                </li>
+
+                <li>
+                    Kompetisi
+                </li>
+
+                <li>
+                    Mutualisme
+                </li>
+
+                <li>
+                    Komensalisme
+                </li>
+
+                <li>
+                    Parasitisme
+                </li>
+
+            </ul>
+
+
+            <div class="success-box">
+
+                <strong>Contoh:</strong>
+
+                <p>
+                    Lebah memperoleh nektar dari bunga, sedangkan bunga
+                    terbantu dalam proses penyerbukan.
+                    Hubungan tersebut merupakan mutualisme.
+                </p>
+
+            </div>
+
+
+            <!-- HOTS 3 -->
+
+            <div class="hots-box">
+
+                <div class="hots-title">
+
+                    <span>🧠</span>
+
+                    <h4>
+                        HOTS – Analisis
+                    </h4>
+
+                </div>
+
+
+                <div class="hots-question">
+
+                    Di sebuah taman terdapat bunga, kupu-kupu,
+                    rumput, belalang, burung, dan semut.
+                    Pilih dua contoh interaksi antarorganisme yang mungkin
+                    terjadi di taman tersebut dan jelaskan bagaimana
+                    interaksi tersebut dapat memengaruhi kehidupan organisme
+                    yang terlibat.
+
+                </div>
+
+
+                <textarea
+                    class="hots-answer"
+                    data-hots="3"
+                    placeholder="Tuliskan hasil analisismu..."></textarea>
+
+
+                <div
+                    class="save-info"
+                    id="saveInfo3">
+
+                    💾 Jawaban akan tersimpan otomatis saat kamu mengetik.
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="complete-btn"
+                id="complete3"
+                onclick="completeLesson(3)">
+
+                ✓ Saya Sudah Selesai Mempelajari Materi
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MATERI 4
+    ================================================== -->
+
+    <section
+        class="lesson locked"
+        id="ekosistem"
+        data-lesson="4">
+
+
+        <div
+            class="lesson-header"
+            onclick="toggleLesson(this)">
+
+            <div class="lesson-number">
+                🔒
+            </div>
+
+
+            <div class="lesson-title">
+
+                <h3>
+                    Ekosistem
+                </h3>
+
+                <span>
+                    Interaksi antara makhluk hidup dan lingkungan
+                </span>
+
+            </div>
+
+
+            <div
+                class="lesson-status"
+                id="status4">
+
+                🔒 Terkunci
+
+            </div>
+
+        </div>
+
+
+
+        <div class="lesson-content">
+
+
+            <h4>
+                1. Pengertian Ekosistem
+            </h4>
+
+            <p>
+                Ekosistem adalah hubungan timbal balik antara komponen
+                biotik dan abiotik dalam suatu lingkungan.
+            </p>
+
+
+            <h4>
+                2. Komponen Biotik
+            </h4>
+
+            <p>
+                Komponen biotik adalah seluruh makhluk hidup yang terdapat
+                dalam ekosistem.
+            </p>
+
+
+            <ul>
+
+                <li>
+                    Produsen
+                </li>
+
+                <li>
+                    Konsumen
+                </li>
+
+                <li>
+                    Pengurai
+                </li>
+
+            </ul>
+
+
+            <h4>
+                3. Komponen Abiotik
+            </h4>
+
+            <p>
+                Komponen abiotik adalah komponen tidak hidup yang
+                memengaruhi kehidupan organisme.
+            </p>
+
+
+            <ul>
+
+                <li>
+                    Air
+                </li>
+
+                <li>
+                    Tanah
+                </li>
+
+                <li>
+                    Cahaya matahari
+                </li>
+
+                <li>
+                    Suhu
+                </li>
+
+                <li>
+                    Udara
+                </li>
+
+                <li>
+                    Kelembapan
+                </li>
+
+            </ul>
+
+
+            <div class="example-box">
+
+                <strong>
+                    Contoh ekosistem:
+                </strong>
+
+                <p>
+                    Sawah merupakan ekosistem yang terdiri dari tanaman padi,
+                    belalang, katak, ular, burung, tanah, air, udara,
+                    cahaya matahari, dan berbagai komponen lainnya.
+                </p>
+
+            </div>
+
+
+            <!-- HOTS 4 -->
+
+            <div class="hots-box">
+
+                <div class="hots-title">
+
+                    <span>🧠</span>
+
+                    <h4>
+                        HOTS – Analisis
+                    </h4>
+
+                </div>
+
+
+                <div class="hots-question">
+
+                    Sebuah sawah menggunakan pestisida secara berlebihan
+                    sehingga banyak serangga mati.
+                    Analisislah dua dampak yang mungkin terjadi terhadap
+                    keseimbangan ekosistem sawah dan jelaskan hubungan
+                    sebab-akibatnya.
+
+                </div>
+
+
+                <textarea
+                    class="hots-answer"
+                    data-hots="4"
+                    placeholder="Tuliskan jawaban berdasarkan analisis sebab-akibat..."></textarea>
+
+
+                <div
+                    class="save-info"
+                    id="saveInfo4">
+
+                    💾 Jawaban akan tersimpan otomatis saat kamu mengetik.
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="complete-btn"
+                id="complete4"
+                onclick="completeLesson(4)">
+
+                ✓ Saya Sudah Selesai Mempelajari Materi
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         VIDEO
+    ================================================== -->
+
+    <section
+        class="special-section"
+        id="videoSection">
+
+
+        <div class="special-title">
+
+            <div class="lesson-number">
+                5
+            </div>
+
+            <h2>
+                🎬 Video Pembelajaran
+            </h2>
+
+        </div>
+
+
+        <div id="videoContent">
+
+            <div
+                class="lock-message"
+                id="videoLockStatus">
+
+                🔒 Video akan terbuka setelah seluruh materi
+                Individu, Populasi, Komunitas, dan Ekosistem
+                selesai dipelajari.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LKPD
+    ================================================== -->
+
+    <section
+        class="special-section"
+        id="lkpdSection">
+
+
+        <div class="special-title">
+
+            <div class="lesson-number">
+                6
+            </div>
+
+            <h2>
+                📝 LKPD
+            </h2>
+
+        </div>
+
+
+        <div id="lkpdContent">
+
+            <div
+                class="lock-message"
+                id="lkpdLockStatus">
+
+                🔒 LKPD akan terbuka setelah kegiatan
+                video selesai.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         KUIS
+    ================================================== -->
+
+    <section
+        class="special-section"
+        id="quizSection">
+
+
+        <div class="special-title">
+
+            <div class="lesson-number">
+                7
+            </div>
+
+            <h2>
+                🧠 Kuis HOTS
+            </h2>
+
+        </div>
+
+
+        <div id="quizContent">
+
+            <div
+                class="lock-message"
+                id="quizLockStatus">
+
+                🔒 Kuis akan terbuka setelah LKPD selesai.
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="quiz-result"
+            id="quizScore"
+            style="display:none;">
+
+            Nilai: -
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         AKTIVITAS
+    ================================================== -->
+
+    <div class="activity-box">
+
+        <h3>
+            📊 Status Aktivitas
+        </h3>
+
+
+        <div
+            class="activity-item"
+            id="activity1">
+
+            <div class="activity-icon">
+                1
+            </div>
+
+            <div>
+                Materi Individu & Adaptasi
+            </div>
+
+        </div>
+
+
+        <div
+            class="activity-item"
+            id="activity2">
+
+            <div class="activity-icon">
+                2
+            </div>
+
+            <div>
+                Materi Populasi
+            </div>
+
+        </div>
+
+
+        <div
+            class="activity-item"
+            id="activity3">
+
+            <div class="activity-icon">
+                3
+            </div>
+
+            <div>
+                Materi Komunitas
+            </div>
+
+        </div>
+
+
+        <div
+            class="activity-item"
+            id="activity4">
+
+            <div class="activity-icon">
+                4
+            </div>
+
+            <div>
+                Materi Ekosistem
+            </div>
+
+        </div>
+
+
+        <div
+            class="activity-item"
+            id="activityVideo">
+
+            <div class="activity-icon">
+                5
+            </div>
+
+            <div>
+                Video Pembelajaran
+            </div>
+
+        </div>
+
+
+        <div
+            class="activity-item"
+            id="activityLKPD">
+
+            <div class="activity-icon">
+                6
+            </div>
+
+            <div>
+                LKPD
+            </div>
+
+        </div>
+
+
+        <div
+            class="activity-item"
+            id="activityQuiz">
+
+            <div class="activity-icon">
+                7
+            </div>
+
+            <div>
+                Kuis HOTS
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+/* =====================================================
+   KONFIGURASI STORAGE
+===================================================== */
+
+const STORAGE_KEY =
+    "edusmk_ipas_progress_v4";
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let state = {
+
+    lessons:{
+        1:false,
+        2:false,
+        3:false,
+        4:false
+    },
+
+    hotsAnswers:{
+        1:"",
+        2:"",
+        3:"",
+        4:""
+    },
+
+    videoAnswers:[],
+    videoCompleted:false,
+
+    lkpdAnswers:[],
+    lkpdCompleted:false,
+
+    quizScore:null,
+    quizAnswers:[]
+
+};
+
+
+/* =====================================================
+   LOAD STATE
+===================================================== */
+
+function loadState(){
+
+    const saved =
+        localStorage.getItem(
+            STORAGE_KEY
+        );
+
+    if(!saved){
+        return;
+    }
+
+
+    try{
+
+        const parsed =
+            JSON.parse(saved);
+
+
+        state = {
+
+            ...state,
+
+            ...parsed,
+
+            lessons:{
+                ...state.lessons,
+                ...(parsed.lessons || {})
+            },
+
+            hotsAnswers:{
+                ...state.hotsAnswers,
+                ...(parsed.hotsAnswers || {})
+            }
+
+        };
+
+
+    }catch(error){
+
+        console.log(
+            "Progress sebelumnya tidak dapat dibaca."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE STATE
+===================================================== */
+
+function saveState(){
+
+    localStorage.setItem(
+
+        STORAGE_KEY,
+
+        JSON.stringify(state)
+
+    );
+
+}
+
+
+/* =====================================================
+   AUTO SAVE HOTS
+===================================================== */
+
+function saveHOTSAnswer(
+    input
+){
+
+    const id =
+        Number(
+            input.dataset.hots
+        );
+
+
+    state.hotsAnswers[id] =
+        input.value;
+
+
+    saveState();
+
+
+    const info =
+        document.getElementById(
+            "saveInfo" + id
+        );
+
+
+    if(info){
+
+        info.textContent =
+            "✓ Jawaban tersimpan otomatis.";
+
+        info.classList.add(
+            "saved"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CEK BOLEH BUKA MATERI
+===================================================== */
+
+function canOpenLesson(id){
+
+    /*
+     * Materi pertama selalu terbuka.
+     */
+
+    if(id === 1){
+
+        return true;
+
+    }
+
+
+    /*
+     * Materi berikutnya hanya terbuka
+     * jika materi sebelumnya selesai.
+     */
+
+    return (
+        state.lessons[id - 1] === true
+    );
+
+}
+
+
+/* =====================================================
+   TOGGLE MATERI
+===================================================== */
+
+function toggleLesson(header){
+
+    const lesson =
+        header.closest(".lesson");
+
+
+    if(!lesson){
+        return;
+    }
+
+
+    const id =
+        Number(
+            lesson.dataset.lesson
+        );
+
+
+    /*
+     * CEK KUNCI
+     */
+
+    if(!canOpenLesson(id)){
+
+        lockedMessage(id);
+
+        return;
+
+    }
+
+
+    lesson.classList.remove(
+        "locked"
+    );
+
+
+    /*
+     * Tutup materi lain.
+     */
+
+    document.querySelectorAll(
+        ".lesson"
+    ).forEach(
+        item => {
+
+            if(item !== lesson){
+
+                item.classList.remove(
+                    "open"
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+     * Buka materi yang dipilih.
+     */
+
+    lesson.classList.toggle(
+        "open"
+    );
+
+}
+
+
+/* =====================================================
+   PESAN TERKUNCI
+===================================================== */
+
+function lockedMessage(id){
+
+    const names = {
+
+        1:"Individu & Adaptasi",
+
+        2:"Populasi",
+
+        3:"Komunitas",
+
+        4:"Ekosistem"
+
+    };
+
+
+    if(id <= 1){
+        return;
+    }
+
+
+    const previous =
+        id - 1;
+
+
+    alert(
+
+        "🔒 Materi masih terkunci.\n\n" +
+
+        "Silakan selesaikan terlebih dahulu:\n" +
+
+        "Materi " +
+        previous +
+        " - " +
+        names[previous]
+
+    );
+
+}
+
+
+/* =====================================================
+   CEK HOTS
+===================================================== */
+
+function hasHOTSAnswer(id){
+
+    const answer =
+        state.hotsAnswers[id];
+
+
+    return (
+        typeof answer === "string" &&
+        answer.trim().length > 0
+    );
+
+}
+
+
+/* =====================================================
+   COMPLETE LESSON
+===================================================== */
+
+function completeLesson(id){
+
+    /*
+     * Pastikan materi boleh dibuka.
+     */
+
+    if(!canOpenLesson(id)){
+
+        lockedMessage(id);
+
+        return;
+
+    }
+
+
+    /*
+     * Cek jawaban HOTS.
+     */
+
+    if(!hasHOTSAnswer(id)){
+
+        alert(
+
+            "⚠️ Jawaban HOTS belum diisi.\n\n" +
+
+            "Silakan jawab soal HOTS terlebih dahulu " +
+
+            "sebelum menandai materi sebagai selesai."
+
+        );
+
+
+        const input =
+            document.querySelector(
+                `[data-hots="${id}"]`
+            );
+
+
+        if(input){
+
+            input.focus();
+
+            input.scrollIntoView({
+
+                behavior:"smooth",
+
+                block:"center"
+
+            });
+
+        }
+
+
+        return;
+
+    }
+
+
+    /*
+     * Jika sudah selesai.
+     */
+
+    if(state.lessons[id]){
+
+        return;
+
+    }
+
+
+    /*
+     * Tandai selesai.
+     */
+
+    state.lessons[id] =
+        true;
+
+
+    saveState();
+
+    updateInterface();
+
+
+    /*
+     * Jika masih ada materi berikutnya.
+     */
+
+    if(id < 4){
+
+        setTimeout(
+
+            function(){
+
+                const next =
+                    document.querySelector(
+                        `.lesson[data-lesson="${id + 1}"]`
+                    );
+
+
+                if(next){
+
+                    next.classList.remove(
+                        "locked"
+                    );
+
+                    next.classList.add(
+                        "open"
+                    );
+
+
+                    next.scrollIntoView({
+
+                        behavior:"smooth",
+
+                        block:"start"
+
+                    });
+
+                }
+
+            },
+
+            300
+
+        );
+
+
+        alert(
+
+            "✅ Materi selesai dipelajari!\n\n" +
+
+            "Materi berikutnya sekarang telah terbuka."
+
+        );
+
+    }
+
+    else{
+
+        alert(
+
+            "🎉 Selamat!\n\n" +
+
+            "Semua materi utama telah selesai.\n\n" +
+
+            "Video pembelajaran sekarang telah terbuka."
+
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SEMUA MATERI SELESAI
+===================================================== */
+
+function allLessonsCompleted(){
+
+    return (
+
+        state.lessons[1] === true &&
+
+        state.lessons[2] === true &&
+
+        state.lessons[3] === true &&
+
+        state.lessons[4] === true
+
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE LESSON
+===================================================== */
+
+function updateLessons(){
+
+    for(
+        let i = 1;
+        i <= 4;
+        i++
+    ){
+
+        const lesson =
+            document.querySelector(
+                `.lesson[data-lesson="${i}"]`
+            );
+
+
+        const status =
+            document.getElementById(
+                "status" + i
+            );
+
+
+        const button =
+            document.getElementById(
+                "complete" + i
+            );
+
+
+        if(!lesson){
+            continue;
+        }
+
+
+        const number =
+            lesson.querySelector(
+                ".lesson-number"
+            );
+
+
+        /*
+         * SELESAI
+         */
+
+        if(
+            state.lessons[i] === true
+        ){
+
+            lesson.classList.remove(
+                "locked"
+            );
+
+            lesson.classList.add(
+                "completed"
+            );
+
+
+            if(status){
+
+                status.textContent =
+                    "✓ Sudah Dipelajari";
+
+            }
+
+
+            if(number){
+
+                number.textContent =
+                    "✓";
+
+            }
+
+
+            if(button){
+
+                button.textContent =
+                    "✓ Materi Sudah Dipelajari";
+
+                button.classList.add(
+                    "completed"
+                );
+
+                button.disabled =
+                    true;
+
+            }
+
+        }
+
+
+        /*
+         * BOLEH DIBUKA
+         */
+
+        else if(
+            canOpenLesson(i)
+        ){
+
+            lesson.classList.remove(
+                "locked"
+            );
+
+
+            lesson.classList.remove(
+                "completed"
+            );
+
+
+            if(status){
+
+                status.textContent =
+                    "📖 Siap Dipelajari";
+
+            }
+
+
+            if(number){
+
+                number.textContent =
+                    i;
+
+            }
+
+
+            if(button){
+
+                button.disabled =
+                    false;
+
+                button.classList.remove(
+                    "completed"
+                );
+
+                button.textContent =
+                    "✓ Saya Sudah Selesai Mempelajari Materi";
+
+            }
+
+        }
+
+
+        /*
+         * TERKUNCI
+         */
+
+        else{
+
+            lesson.classList.add(
+                "locked"
+            );
+
+
+            if(status){
+
+                status.textContent =
+                    "🔒 Terkunci";
+
+            }
+
+
+            if(number){
+
+                number.textContent =
+                    "🔒";
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE MENU
+===================================================== */
+
+function updateMenu(){
+
+    const menuNames = [
+
+        null,
+
+        "menuIndividu",
+
+        "menuPopulasi",
+
+        "menuKomunitas",
+
+        "menuEkosistem"
+
+    ];
+
+
+    for(
+        let i = 1;
+        i <= 4;
+        i++
+    ){
+
+        const menu =
+            document.getElementById(
+                menuNames[i]
+            );
+
+
+        if(!menu){
+            continue;
+        }
+
+
+        if(
+            canOpenLesson(i)
+        ){
+
+            menu.classList.remove(
+                "locked"
+            );
+
+        }
+        else{
+
+            menu.classList.add(
+                "locked"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * VIDEO
+     */
+
+    const videoMenu =
+        document.getElementById(
+            "menuVideo"
+        );
+
+
+    if(
+        allLessonsCompleted()
+    ){
+
+        videoMenu.classList.remove(
+            "locked"
+        );
+
+    }
+    else{
+
+        videoMenu.classList.add(
+            "locked"
+        );
+
+    }
+
+
+    /*
+     * LKPD
+     */
+
+    const lkpdMenu =
+        document.getElementById(
+            "menuLKPD"
+        );
+
+
+    if(
+        state.videoCompleted
+    ){
+
+        lkpdMenu.classList.remove(
+            "locked"
+        );
+
+    }
+    else{
+
+        lkpdMenu.classList.add(
+            "locked"
+        );
+
+    }
+
+
+    /*
+     * QUIZ
+     */
+
+    const quizMenu =
+        document.getElementById(
+            "menuQuiz"
+        );
+
+
+    if(
+        state.lkpdCompleted
+    ){
+
+        quizMenu.classList.remove(
+            "locked"
+        );
+
+    }
+    else{
+
+        quizMenu.classList.add(
+            "locked"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+    let completed =
+        0;
+
+
+    for(
+        let i = 1;
+        i <= 4;
+        i++
+    ){
+
+        if(
+            state.lessons[i]
+        ){
+
+            completed++;
+
+        }
+
+    }
+
+
+    if(
+        state.videoCompleted
+    ){
+
+        completed++;
+
+    }
+
+
+    if(
+        state.lkpdCompleted
+    ){
+
+        completed++;
+
+    }
+
+
+    if(
+        state.quizScore !== null
+    ){
+
+        completed++;
+
+    }
+
+
+    const percent =
+        Math.round(
+            completed / 7 * 100
+        );
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percent + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        percent + "%";
+
+}
+
+
+/* =====================================================
+   UPDATE AKTIVITAS
+===================================================== */
+
+function updateActivities(){
+
+    for(
+        let i = 1;
+        i <= 4;
+        i++
+    ){
+
+        const item =
+            document.getElementById(
+                "activity" + i
+            );
+
+
+        if(
+            state.lessons[i]
+        ){
+
+            item.classList.add(
+                "done"
+            );
+
+
+            item.querySelector(
+                ".activity-icon"
+            ).textContent =
+                "✓";
+
+        }
+
+    }
+
+
+    if(
+        state.videoCompleted
+    ){
+
+        const item =
+            document.getElementById(
+                "activityVideo"
+            );
+
+
+        item.classList.add(
+            "done"
+        );
+
+
+        item.querySelector(
+            ".activity-icon"
+        ).textContent =
+            "✓";
+
+    }
+
+
+    if(
+        state.lkpdCompleted
+    ){
+
+        const item =
+            document.getElementById(
+                "activityLKPD"
+            );
+
+
+        item.classList.add(
+            "done"
+        );
+
+
+        item.querySelector(
+            ".activity-icon"
+        ).textContent =
+            "✓";
+
+    }
+
+
+    if(
+        state.quizScore !== null
+    ){
+
+        const item =
+            document.getElementById(
+                "activityQuiz"
+            );
+
+
+        item.classList.add(
+            "done"
+        );
+
+
+        item.querySelector(
+            ".activity-icon"
+        ).textContent =
+            "✓";
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER VIDEO
+===================================================== */
+
+function renderVideo(){
+
+    const container =
+        document.getElementById(
+            "videoContent"
+        );
+
+
+    if(
+        !allLessonsCompleted()
+    ){
+
+        container.innerHTML = `
+
+            <div class="lock-message">
+
+                🔒 <strong>
+                    Video masih terkunci.
+                </strong>
+
+                <p>
+                    Selesaikan Materi 1 sampai Materi 4
+                    beserta soal HOTS masing-masing
+                    terlebih dahulu.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="video-container">
+
+            <iframe
+                src="https://www.youtube.com/embed/16GC9IaTBfM"
+                title="Video Pembelajaran Projek IPAS"
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+
+        <h3>
+            Pertanyaan Setelah Menonton Video
+        </h3>
+
+
+        <p>
+            Jawablah seluruh pertanyaan berikut
+            berdasarkan pemahamanmu.
+        </p>
+
+
+        ${videoQuestion(
+
+            0,
+
+            "Apa hubungan antara individu dengan populasi?"
+
+        )}
+
+
+        ${videoQuestion(
+
+            1,
+
+            "Mengapa perubahan jumlah satu populasi dapat memengaruhi populasi lain?"
+
+        )}
+
+
+        ${videoQuestion(
+
+            2,
+
+            "Berikan contoh interaksi antarorganisme yang kamu temukan di lingkungan sekitar."
+
+        )}
+
+
+        ${videoQuestion(
+
+            3,
+
+            "Apa akibat yang mungkin terjadi apabila salah satu komponen ekosistem hilang?"
+
+        )}
+
+
+        ${videoQuestion(
+
+            4,
+
+            "Bagaimana cara manusia menjaga keseimbangan ekosistem?"
+
+        )}
+
+
+        <button
+            class="complete-btn"
+            onclick="completeVideo()">
+
+            ✓ Selesai Menonton dan Menjawab
+
+        </button>
+
+    `;
+
+}
+
+
+/* =====================================================
+   VIDEO QUESTION
+===================================================== */
+
+function videoQuestion(
+    index,
+    question
+){
+
+    const answer =
+        state.videoAnswers[index] ||
+        "";
+
+
+    return `
+
+        <div class="question-box">
+
+            <strong>
+                ${index + 1}. ${question}
+            </strong>
+
+            <br><br>
+
+            <textarea
+                data-video="${index}"
+                placeholder="Tuliskan jawabanmu..."
+            >${answer}</textarea>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   COMPLETE VIDEO
+===================================================== */
+
+function completeVideo(){
+
+    const fields =
+        document.querySelectorAll(
+            "[data-video]"
+        );
+
+
+    const answers =
+        [];
+
+
+    for(
+        const field of fields
+    ){
+
+        const value =
+            field.value.trim();
+
+
+        if(!value){
+
+            alert(
+                "⚠️ Silakan jawab semua pertanyaan video terlebih dahulu."
+            );
+
+
+            field.focus();
+
+            return;
+
+        }
+
+
+        answers.push(
+            value
+        );
+
+    }
+
+
+    state.videoAnswers =
+        answers;
+
+
+    state.videoCompleted =
+        true;
+
+
+    saveState();
+
+    updateInterface();
+
+
+    alert(
+
+        "🎉 Kegiatan video selesai!\n\n" +
+
+        "LKPD sekarang telah dibuka."
+
+    );
+
+}
+
+
+/* =====================================================
+   RENDER LKPD
+===================================================== */
+
+function renderLKPD(){
+
+    const container =
+        document.getElementById(
+            "lkpdContent"
+        );
+
+
+    if(
+        !state.videoCompleted
+    ){
+
+        container.innerHTML = `
+
+            <div class="lock-message">
+
+                🔒 <strong>
+                    LKPD masih terkunci.
+                </strong>
+
+                <p>
+                    Selesaikan kegiatan video
+                    terlebih dahulu.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <p>
+
+            Amatilah lingkungan sekitar sekolah
+            atau rumahmu. Kemudian identifikasi
+            individu, populasi, komunitas,
+            dan komponen ekosistem yang kamu temukan.
+
+        </p>
+
+
+        <table class="lkpd-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        No
+                    </th>
+
+                    <th>
+                        Aspek
+                    </th>
+
+                    <th>
+                        Hasil Pengamatan
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                ${lkpdRow(
+
+                    1,
+
+                    "Individu",
+
+                    "Contoh satu makhluk hidup yang kamu temukan."
+
+                )}
+
+
+                ${lkpdRow(
+
+                    2,
+
+                    "Populasi",
+
+                    "Contoh kelompok organisme sejenis."
+
+                )}
+
+
+                ${lkpdRow(
+
+                    3,
+
+                    "Komunitas",
+
+                    "Berbagai populasi yang hidup bersama."
+
+                )}
+
+
+                ${lkpdRow(
+
+                    4,
+
+                    "Komponen Biotik",
+
+                    "Makhluk hidup yang ditemukan."
+
+                )}
+
+
+                ${lkpdRow(
+
+                    5,
+
+                    "Komponen Abiotik",
+
+                    "Komponen tidak hidup yang ditemukan."
+
+                )}
+
+            </tbody>
+
+        </table>
+
+
+        <div class="question-box">
+
+            <strong>
+                Kesimpulan
+            </strong>
+
+            <p>
+
+                Jelaskan hubungan antara individu,
+                populasi, komunitas, dan ekosistem.
+
+            </p>
+
+
+            <textarea
+                data-lkpd="5"
+                placeholder="Tuliskan kesimpulan..."
+            >${state.lkpdAnswers[5] || ""}</textarea>
+
+        </div>
+
+
+        <button
+            class="complete-btn"
+            onclick="completeLKPD()">
+
+            ✓ Selesai Mengerjakan LKPD
+
+        </button>
+
+    `;
+
+}
+
+
+/* =====================================================
+   LKPD ROW
+===================================================== */
+
+function lkpdRow(
+    index,
+    title,
+    description
+){
+
+    return `
+
+        <tr>
+
+            <td>
+                ${index}
+            </td>
+
+            <td>
+
+                <strong>
+                    ${title}
+                </strong>
+
+                <br>
+
+                <small>
+                    ${description}
+                </small>
+
+            </td>
+
+            <td>
+
+                <textarea
+                    data-lkpd="${index}"
+                    placeholder="Tuliskan hasil pengamatan..."
+                >${state.lkpdAnswers[index] || ""}</textarea>
+
+            </td>
+
+        </tr>
+
+    `;
+
+}
+
+
+/* =====================================================
+   COMPLETE LKPD
+===================================================== */
+
+function completeLKPD(){
+
+    const fields =
+        document.querySelectorAll(
+            "[data-lkpd]"
+        );
+
+
+    const answers =
+        [];
+
+
+    for(
+        const field of fields
+    ){
+
+        const value =
+            field.value.trim();
+
+
+        if(!value){
+
+            alert(
+                "⚠️ Silakan lengkapi seluruh LKPD terlebih dahulu."
+            );
+
+
+            field.focus();
+
+            return;
+
+        }
+
+
+        answers[field.dataset.lkpd] =
+            value;
+
+    }
+
+
+    state.lkpdAnswers =
+        answers;
+
+
+    state.lkpdCompleted =
+        true;
+
+
+    saveState();
+
+    updateInterface();
+
+
+    alert(
+
+        "🎉 LKPD selesai!\n\n" +
+
+        "Kuis HOTS sekarang telah dibuka."
+
+    );
+
+}
+
+
+/* =====================================================
+   DATA KUIS HOTS
+===================================================== */
+
+const quizQuestions = [
+
+    {
+
+        question:
+        "Di halaman sekolah terdapat satu pohon mangga. Berdasarkan tingkat organisasi kehidupan, pohon tersebut termasuk...",
+
+        options:[
+
+            "Populasi",
+
+            "Individu",
+
+            "Komunitas",
+
+            "Ekosistem",
+
+            "Biosfer"
+
+        ],
+
+        answer:1
+
+    },
+
+
+    {
+
+        question:
+        "Di sebuah kolam terdapat 50 ikan nila. Kelima puluh ikan tersebut termasuk...",
+
+        options:[
+
+            "Individu",
+
+            "Komunitas",
+
+            "Ekosistem",
+
+            "Populasi",
+
+            "Biosfer"
+
+        ],
+
+        answer:3
+
+    },
+
+
+    {
+
+        question:
+        "Di taman sekolah terdapat rumput, semut, kupu-kupu, burung, dan pohon. Kumpulan berbagai populasi tersebut membentuk...",
+
+        options:[
+
+            "Komunitas",
+
+            "Individu",
+
+            "Organ",
+
+            "Populasi",
+
+            "Spesies"
+
+        ],
+
+        answer:0
+
+    },
+
+
+    {
+
+        question:
+        "Jika populasi ular di sawah menurun drastis, kemungkinan yang terjadi adalah...",
+
+        options:[
+
+            "Populasi tikus menurun",
+
+            "Populasi tikus meningkat",
+
+            "Padi tumbuh lebih sedikit karena kekurangan air",
+
+            "Jumlah cahaya matahari berkurang",
+
+            "Tanah berubah menjadi batu"
+
+        ],
+
+        answer:1
+
+    },
+
+
+    {
+
+        question:
+        "Kaktus memiliki daun berbentuk duri. Adaptasi tersebut membantu kaktus untuk...",
+
+        options:[
+
+            "Mempercepat fotosintesis",
+
+            "Menambah jumlah air di tanah",
+
+            "Mengurangi kehilangan air",
+
+            "Menarik semua predator",
+
+            "Mengubah tanah menjadi subur"
+
+        ],
+
+        answer:2
+
+    },
+
+
+    {
+
+        question:
+        "Petani menggunakan pestisida secara berlebihan sehingga banyak serangga mati. Dampak yang paling mungkin terjadi adalah...",
+
+        options:[
+
+            "Semua organisme menjadi lebih sehat",
+
+            "Tidak ada perubahan ekosistem",
+
+            "Rantai makanan dapat terganggu",
+
+            "Air berubah menjadi udara",
+
+            "Tanaman tidak membutuhkan cahaya"
+
+        ],
+
+        answer:2
+
+    },
+
+
+    {
+
+        question:
+        "Lebah memperoleh nektar dari bunga dan membantu proses penyerbukan. Hubungan tersebut merupakan...",
+
+        options:[
+
+            "Parasitisme",
+
+            "Mutualisme",
+
+            "Kompetisi",
+
+            "Predasi",
+
+            "Amensalisme"
+
+        ],
+
+        answer:1
+
+    },
+
+
+    {
+
+        question:
+        "Jika sebuah danau tercemar limbah, komponen yang kemungkinan pertama kali mengalami perubahan adalah...",
+
+        options:[
+
+            "Hanya hewan",
+
+            "Hanya tumbuhan",
+
+            "Komponen abiotik seperti kualitas air",
+
+            "Hanya manusia",
+
+            "Tidak ada komponen"
+
+        ],
+
+        answer:2
+
+    },
+
+
+    {
+
+        question:
+        "Seorang siswa menemukan bahwa jumlah ikan di kolam sekolah menurun karena air kekurangan oksigen. Faktor tersebut termasuk komponen...",
+
+        options:[
+
+            "Biotik",
+
+            "Individu",
+
+            "Populasi",
+
+            "Abiotik",
+
+            "Komunitas"
+
+        ],
+
+        answer:3
+
+    },
+
+
+    {
+
+        question:
+        "Cara paling tepat untuk menjaga keseimbangan ekosistem sekolah adalah...",
+
+        options:[
+
+            "Membuang sampah ke sungai",
+
+            "Menggunakan pestisida sebanyak mungkin",
+
+            "Menjaga kebersihan dan mempertahankan keanekaragaman organisme",
+
+            "Menghilangkan semua serangga",
+
+            "Menebang semua pohon"
+
+        ],
+
+        answer:2
+
+    }
+
+];
+
+
+/* =====================================================
+   RENDER QUIZ
+===================================================== */
+
+function renderQuiz(){
+
+    const container =
+        document.getElementById(
+            "quizContent"
+        );
+
+
+    const scoreBox =
+        document.getElementById(
+            "quizScore"
+        );
+
+
+    if(
+        !state.lkpdCompleted
+    ){
+
+        container.innerHTML = `
+
+            <div class="lock-message">
+
+                🔒 <strong>
+                    Kuis masih terkunci.
+                </strong>
+
+                <p>
+                    Selesaikan LKPD terlebih dahulu.
+                </p>
+
+            </div>
+
+        `;
+
+
+        scoreBox.style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <p>
+
+            Jawablah seluruh pertanyaan berikut.
+            Setiap soal memiliki satu jawaban paling tepat.
+
+        </p>
+
+    `;
+
+
+    quizQuestions.forEach(
+
+        (q,index) => {
+
+            html += `
+
+                <div class="quiz-question">
+
+                    <h4>
+                        ${index + 1}.
+                        ${q.question}
+                    </h4>
+
+            `;
+
+
+            q.options.forEach(
+
+                (option,optionIndex) => {
+
+                    html += `
+
+                        <label class="option">
+
+                            <input
+                                type="radio"
+                                name="q${index}"
+                                value="${optionIndex}"
+                            >
+
+                            ${String.fromCharCode(
+                                65 + optionIndex
+                            )}.
+
+                            ${option}
+
+                        </label>
+
+                    `;
+
+                }
+
+            );
+
+
+            html += `
+
+                </div>
+
+            `;
+
+        }
+
+    );
+
+
+    html += `
+
+        <button
+            class="complete-btn"
+            onclick="submitQuiz()">
+
+            ✓ Kirim Jawaban Kuis
+
+        </button>
+
+    `;
+
+
+    container.innerHTML =
+        html;
+
+
+    if(
+        state.quizScore !== null
+    ){
+
+        scoreBox.style.display =
+            "block";
+
+
+        scoreBox.textContent =
+            "🏆 Nilai Kuis: " +
+            state.quizScore;
+
+    }
+
+}
+
+
+/* =====================================================
+   SUBMIT QUIZ
+===================================================== */
+
+function submitQuiz(){
+
+    const answers =
+        [];
+
+
+    for(
+        let i = 0;
+        i < quizQuestions.length;
+        i++
+    ){
+
+        const selected =
+            document.querySelector(
+                `input[name="q${i}"]:checked`
+            );
+
+
+        if(!selected){
+
+            alert(
+                "⚠️ Silakan jawab semua soal terlebih dahulu."
+            );
+
+
+            return;
+
+        }
+
+
+        answers[i] =
+            Number(
+                selected.value
+            );
+
+    }
+
+
+    let correct =
+        0;
+
+
+    quizQuestions.forEach(
+
+        (question,index) => {
+
+            if(
+                answers[index] ===
+                question.answer
+            ){
+
+                correct++;
+
+            }
+
+        }
+
+    );
+
+
+    const score =
+        correct * 10;
+
+
+    state.quizScore =
+        score;
+
+
+    state.quizAnswers =
+        answers;
+
+
+    saveState();
+
+    updateInterface();
+
+
+    alert(
+
+        "🎉 Kuis selesai!\n\n" +
+
+        "Jawaban benar: " +
+
+        correct +
+
+        " dari " +
+
+        quizQuestions.length +
+
+        "\nNilai: " +
+
+        score
+
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE SEMUA
+===================================================== */
+
+function updateInterface(){
+
+    updateLessons();
+
+    updateMenu();
+
+    updateProgress();
+
+    updateActivities();
+
+    renderVideo();
+
+    renderLKPD();
+
+    renderQuiz();
+
+
+    /*
+     * Isi kembali jawaban HOTS
+     * setelah halaman diperbarui.
+     */
+
+    for(
+        let i = 1;
+        i <= 4;
+        i++
+    ){
+
+        const input =
+            document.querySelector(
+                `[data-hots="${i}"]`
+            );
+
+
+        if(input){
+
+            input.value =
+                state.hotsAnswers[i] || "";
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   NAVIGASI MENU
+===================================================== */
+
+document.querySelectorAll(
+    ".menu-item"
+).forEach(
+
+    menu => {
+
+        menu.addEventListener(
+            "click",
+
+            function(event){
+
+                if(
+                    this.classList.contains(
+                        "locked"
+                    )
+                ){
+
+                    event.preventDefault();
+
+
+                    alert(
+
+                        "🔒 Bagian ini masih terkunci.\n\n" +
+
+                        "Selesaikan kegiatan sebelumnya terlebih dahulu."
+
+                    );
+
+
+                    return;
+
+                }
+
+
+                document.querySelectorAll(
+                    ".menu-item"
+                ).forEach(
+
+                    item => {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+
+                );
+
+
+                this.classList.add(
+                    "active"
+                );
+
+            }
+
+        );
+
+    }
+
+);
+
+
+/* =====================================================
+   AUTO SAVE TEXTAREA HOTS
+===================================================== */
+
+document.addEventListener(
+    "input",
+
+    function(event){
+
+        if(
+            event.target.matches(
+                "[data-hots]"
+            )
+        ){
+
+            saveHOTSAnswer(
+                event.target
+            );
+
+        }
+
+    }
+
+);
+
+
+/* =====================================================
+   INISIALISASI
+===================================================== */
+
+loadState();
+
+
+/*
+ * Pastikan jawaban HOTS
+ * muncul kembali.
+ */
+
+document.querySelectorAll(
+    "[data-hots]"
+).forEach(
+
+    input => {
+
+        const id =
+            Number(
+                input.dataset.hots
+            );
+
+
+        input.value =
+            state.hotsAnswers[id] || "";
+
+    }
+
+);
+
+
+updateInterface();
+
+
+/*
+ * Materi pertama selalu terbuka.
+ */
+
+const firstLesson =
+    document.querySelector(
+        '.lesson[data-lesson="1"]'
+    );
+
+
+if(firstLesson){
+
+    firstLesson.classList.remove(
+        "locked"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
